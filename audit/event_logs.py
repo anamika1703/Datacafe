@@ -61,18 +61,10 @@ modified_date = modified_date.strftime("%Y-%m-%d %H:%M:%S")
 last_successful_date = now.strftime("%Y-%m-%d %H:%M:%S")
 dt_string = now.strftime("%d%m%Y%H%M%S")
 
-input_data = expectationsdf
-#.where((expectationsdf.date_timestamp >= modified_date) & (expectationsdf.date_timestamp <= last_successful_date))
-input_data.show(5,False)
+input_data = expectationsdf.where((expectationsdf.date_timestamp >= modified_date) & (expectationsdf.date_timestamp <= last_successful_date))
+#input_data.show(5,False)
 write_to_files(input_data,"csv","dbfs:/FileStore/DataCafe/audit_temp/")       
 file_path=glob.glob("/dbfs/FileStore/DataCafe/audit_temp/*.csv")[0]
 file_path1=os.path.basename(file_path)
 common_utils_move("dbfs:/FileStore/DataCafe/audit_temp/"+file_path1,"dbfs:/FileStore/DataCafe/audit_stream_test/event_log/event_log_"+dt_string+".csv")
 common_utils_remove("dbfs:/FileStore/DataCafe/audit_temp/")
-
-# COMMAND ----------
-
-query = autoload_to_table(data_source = "dbfs:/FileStore/DataCafe/audit_stream/event_log",
-                          source_format = "csv",
-                          table_name = "event_logs_gold",
-                          checkpoint_directory = "dbfs:/FileStore/audit_target_table")
