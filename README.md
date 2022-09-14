@@ -1,6 +1,6 @@
 # Datacafe
 
-#This is an IOT based databricks project , where we are using different IOT data and building delta live table workflow.
+This is an IOT based databricks project , where we are using different IOT data and building delta live table workflow.
 
 ## Getting started
 
